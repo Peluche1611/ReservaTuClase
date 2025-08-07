@@ -1,0 +1,8 @@
+{% if slot.reserved %}
+  Reservado por {{ slot.reserved_by }} ({{ slot.category }})
+  {% if slot.reserved_by == user %}
+    | <a href="{{ url_for('cancel', slot_id=slot.id) }}">Cancelar</a>
+  {% endif %}
+{% else %}
+  <a href="{{ url_for('reserve', slot_id=slot.id) }}">Reservar</a>
+{% endif %}

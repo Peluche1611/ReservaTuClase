@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-higlight" content="no">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1", widht="device-width">
+<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Reserva tu clase</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="shortcut icon" href="./favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="./favicon.png" type="image/png">
+<style>
+ -webkit-text-size-adjust: none;
+ -webkit-user-select: none;
+  text-transform: uppercase;
+  color: #333;
+  font: 300 18px / 18px Roboto;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 200px;
+  border-radius: 145px;
+  background-color: #FFF;
+  width: 90%;
+  overflow: auto;
+  height: 300px;
+</style>
+</head>
+<body>
+<body>
+
+    <div class="mobile-wrap">
+		<div class="mobile clearfix">
+      		<div class="header">
+      			<span class="ion-ios-navicon pull-left"><i></i></span>
+      			<span class="title"> Inicio</span>
+      			<span style="display:none" class="ion-ios-search pull-right"></span>
+      			<div class="search" style="display:none">
+      			<form method="post">
+      				<input type="search" placeholder="Search Here">
+      			</form>
+      			</div>
+      		</div>
+      		<div class="sidebar">
+      			<div class="sidebar-overlay fadeIn animated"></div>
+      			<div class="content">
+      			<div class="html search">
+      				<div class="title bounceInDown animated">Resultados de busqueda</div>
+      				<p class="flipInX animated">No se econtro lo que buscaba: <b class="key"></b></p>
+      			</div>
+      			<div class="html welcome visible">
+      				<div class="datetime">
+      					<div class="day lightSpeedIn animated">Miercoles</div>
+      					<div class="date lightSpeedIn animated">Agosto 06, 2025</div>
+      					<div class="time lightSpeedIn animated">12:07:45 AM</div>
+                <hr>
+								<!-- <center><h4>Gracias por Registrarte, en breve las funciones.</h4></center> -->
+                <div id="mis_reservas"></div>
+                <center><img src="img/logo.png" style="max-width: 50%;"></center>
+
+      				</div>
+      			</div>
+
+
+            <div class="html torneos">
+            	<div id="listado_torneos" class="alarm-list">
+                	<center>Estamos trabajando...</center>
+      			</div>
+            </div>
+
+
+            <div class="html edita_perfil">
+				<div class="forms edita_perfil-list">
+                  <!--
+					<div class="group clearfix slideInRight animated">
+						<label class="pull-left" for="edita_perfil-time"><span class="ion-ios-time-outline"></span> Time</label>
+						<input class="pull-right" id="edita_perfil-time" type="time">
+					</div>
+					<div class="group clearfix slideInLeft animated">
+						<label class="pull-left" for="edita_perfil-date"><span class="ion-ios-calendar-outline"></span> Date</label>
+						<input class="pull-right" id="edita_perfil-date" type="date">
+					</div>
+					<div class="group clearfix slideInRight animated">
+						<label class="pull-left" for="edita_perfil-title"><span class="ion-ios-paper-outline"></span> Title</label>
+						<input class="pull-right" id="edita_perfil-title" type="text">
+					</div>
+					<div class="group clearfix slideInLeft animated">
+						<label class="visible" for="edita_perfil-detail"><span class="ion-ios-list-outline"></span> Task</label>
+						<textarea class="visible" id="edita_perfil-detail" rows="3"></textarea>
+					</div>
+					<div class="action flipInY animated">
+						<a href="#home"><button class="btn" ><i class="ion-ios-arrow-back"></i> Atras</button></a>
+					</div>
+                -->
+                	<center>Estamos trabajando...</center>
+				</div>
+			</div>
+
+			<div class="html settings">
+				<div class="setting-list">
+					<div class="gear clearfix slideInRight animated">
+						<div class="title pull-left">General</div>
+						<div class="action pull-right"><span class="ion-ios-arrow-right"></span></div>
+					</div>
+					<div class="gear clearfix slideInLeft animated">
+						<div class="title pull-left"><label for="gear-notice">Notification</label></div>
+						<div class="action pull-right"><input id="gear-notice" class="on-off" type="checkbox"><label for="gear-notice"></label></div>
+					</div>
+					<div class="gear clearfix slideInRight animated">
+						<div class="title pull-left"><label for="gear-sound">Sound</label></div>
+						<div class="action pull-right"><input id="gear-sound" class="on-off" type="checkbox" checked=""><label for="gear-sound"></label></div>
+					</div>
+					<div class="gear clearfix slideInLeft animated">
+						<div class="title pull-left">Theme</div>
+						<div class="action pull-right">Standard <span class="ion-ios-arrow-right"></span></div>
+					</div>
+					<div class="gear clearfix slideInRight animated">
+						<div class="title pull-left">Support</div>
+						<div class="action pull-right"><span class="ion-ios-arrow-right"></span></div>
+					</div>
+					<div class="gear clearfix slideInLeft animated">
+						<div class="title pull-left">Privacy</div>
+						<div class="action pull-right"><span class="ion-ios-arrow-right"></span></div>
+					</div>
+				</div>
+			</div>
+
+            <div class="html reserva_cancha">
+				<div class="tabs-list clearfix">
+					<a href="#" onclick="lnkint('canchas')" class="tab">Hoy Juegan</a>
+					<a href="#" onclick="lnkint('reserva_cancha')" class="tab active">Reservas</a>
+				</div>
+				<div class="forms compose-list">
+					<div class="group clearfix slideInLeft animated">
+					<input type="hidden" id="luz_add" value="0">
+						<label class="pull-left" for="compose-cancha"><span class="ion-ios-tennisball"></span> Cancha</label>
+						<select class="pull-right form-control" onchange="cambia_canchas()" id="compose-cancha">
+							<option selected="" disabled="" value="">Seleccione una cancha</option>
+							<option value="1">Nova 1</option>
+							<option value="2">Nova 2</option>
+							<option value="3">Nova 3</option>
+						</select>
+					</div>
+
+					<div class="group clearfix slideInRight animated" style="display:none;" id="group_fechas">
+						<label class="pull-left" for="compose-date"><span class="ion-ios-calendar-outline"></span> Fecha</label>
+						<input class="pull-right form-control" onchange="canchas_disponibles()" style="min-width:inherit" id="compose-date" type="date">
+					</div>
+					<div class="group clearfix slideInLeft animated" style="display:none;" id="group_horas">
+						<label class="pull-left" for="compose-time"><span class="ion-ios-time-outline"></span> Hora</label>
+						<select class="pull-right form-control" onchange="modalidad()" id="compose-time">
+							<option selected="" disabled="" value="">Seleccione Una Hora...</option>
+						</select>
+					</div>
+
+					<div class="group clearfix slideInLeft animated" style="display:none;" id="group_fijo">
+						<label class="pull-left" for="compose-time"><span class="ion-ios-time-outline"></span> Es Turno Fijo?</label>
+						<select class="pull-right form-control" id="compose-fijo">
+							<option value="0">No</option>
+							<option value="1">Si</option>
+						</select>
+					</div>
+
+					<div class="group clearfix slideInLeft animated" style="display:none;" id="group_modalidad">
+						<label class="pull-left" for="compose-modal"><span class="ion-ios-contact"></span> Modalidad</label>
+						<select class="pull-right form-control" onchange="modalidad()" style="min-width:inherit" id="compose-modal">
+							<option selected="" disabled="">Seleccione una</option>
+							<option value="s">Single</option>
+							<option value="d">Dobles</option>
+						</select>
+					</div>
+					<div class="action flipInY animated">
+						<center>
+							<a class="btn btn-danger" href="index.html"><i class="ion-ios-arrow-back"></i> Cancelar</a>&nbsp;&nbsp;
+							<a onclick="pre_checkout()" class="btn btn-success" style="display:none;" id="group_confirma"><i class="ion-ios-checkmark-outline"></i> Confimar</a>
+						</center>
+					</div>
+				</div>
+			</div>
+
+			<div class="html canchas">
+				<div class="tabs-list clearfix">
+					<a href="#" onclick="lnkint('canchas')" class="tab active">Hoy Juegan</a>
+					<a href="#" onclick="lnkint('reserva_cancha')" class="tab">Reservas</a>
+				</div>
+              	<div class="active-users" id="partidos_hoy">
+				</div>
+			</div>
+
+            <div class="html checkout">
+				<div class="details" style="text-align: center;">
+					<p class="heading flipInY animated" id="nombre_checkout">Detalle de Reserva</p>
+					<div class="heading flipInY animated" id="socio_checkout" style="text-align: left;">
+					</div>
+					<p class="heading flipInY animated" id="categoria_checkout" style="display: none;">
+						<span>Formas de Pago</span>
+						<br>
+						<br>
+						<span style="width: 100%;display: block;text-align: left;">
+							<input type="radio" id="rcs" name="formap">
+							<label for="rcs" style="font-weight: inherit;">
+								<i class="fa fa-indent" style="font-size: 20px;color: #d5eb1d;"></i>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recargar a Cuota Social
+							</label>
+						</span>
+						<br>
+						<span style="width: 100%;display: block;text-align: left;">
+							<input type="radio" id="pec" name="formap" checked="">
+							<label for="pec" style="font-weight: inherit;">
+								<i class="fa fa-shield" style="font-size: 20px;color: #d5eb1d;"></i>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Abono en el Club
+							</label>
+						</span>
+						<br>
+						<span style="width: 100%;display: block;text-align: left;">
+							<input type="radio" id="tb" name="formap">
+							<label for="tb" style="font-weight: inherit;">
+								<i class="fa fa-university" style="font-size: 20px;color: #d5eb1d;"></i>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Transferencia Bancaria
+							</label>
+						</span>
+						<br>
+						<span style="width: 100%;display: block;text-align: left;">
+							<input type="radio" id="mp" name="formap">
+							<label for="mp" style="font-weight: inherit;">
+								<img src="img/mp.png" width="25px;">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mercado Pago
+							</label>
+						</span>
+						<br>
+					</p>
+					<button class="btn btn-success" onclick="confirma_res()" style="text-align: center;margin-top: 20px;font-weight: bold;">Completar Reserva <valorcancha style="display:none">Cargando...</valorcancha> </button>
+				</div>
+			</div>
+
+
+			<div class="html perfil">
+				<div class="photo flipInX animated">
+					<img src="img/fer.jpg">
+			<div class="opciones">
+						<a href="#edita_perfil" class="soc-item soc-lnk soc-count-1"><span class="fa fa-pencil"></span><span class="invisible">Editar Perfil</span></a>
+						<a href="https://www.facebook.com/" target="_blank" class="soc-item soc-count-4"><span class="ion-social-facebook"></span></a>
+						<a href="http://facebook.com/" class="soc-item soc-count-6"><span class="ion-social-instagram"></span></a>
+
+					</div>
+
+				</div>
+				<div class="details" style="text-align: center;">
+					<p class="heading flipInY animated" id="nombre_perfil">
+
+					</p>
+			<p class="heading flipInY animated" id="socio_perfil">
+
+					</p>
+			<p class="heading flipInY animated" id="categoria_perfil">
+
+					</p>
+					<!-- <p class="text fadeInUp animated" id="txtcobranza">Desea Actualizar Datos o Transferir Billetera</p> -->
+			<div id="fechasaliquidar"></div>
+		<!--    <button class="btn btn-danger" onclick="confirma_trans()" style="text-align: center;margin-top: 50px;font-weight: bold;" id="adeuda_perfil">Abonar Cuotas <i class="fa fa-money" aria-hidden="true"></i><br>($800,00)  </button> -->
+
+			<button class="btn btn-success" id="btn-perfil-saldo" onclick="sincronizartodo()" style="text-align: center;margin-top: 50px;font-weight: bold;">Cargando...</button>
+
+				</div>
+
+			</div>
+
+
+            <!-- pantalla "El Club" -->
+            <div class="html club">
+              <div class="title flipInY animated">Info Aqui</div>
+              <div class="credit-ol">
+                <div class="credit-li lightSpeedIn animated"><a href="javascript:void(0)">Data 1</a> <span>extra 1</span></div>
+                <div class="credit-li lightSpeedIn animated"><a href="javascript:void(0)">Data 2</a> <span>extra 2</span></div>
+                <div class="credit-li lightSpeedIn animated"><a href="javascript:void(0)">Data 3</a> <span>extra 3</span></div>
+                <div class="credit-li lightSpeedIn animated"><a href="javascript:void(0)">Data 4</a> <span>extra 4</span></div>
+                <div class="credit-li lightSpeedIn animated"><a href="javascript:void(0)">Data 5</a> <span>extra 5</span></div>
+                <div class="credit-li lightSpeedIn animated"><a href="javascript:void(0)">Data 6</a> <span>extra 6</span></div>
+                <div class="credit-li lightSpeedIn animated"><a href="javascript:void(0)">Data 7</a> <span>extra 7</span></div>
+              </div>
+              <div class="text zoomInUp animated">Veni a Visitar nuestras instalaciones, estamos en  de Bahia Blanca.<br>Te esperamos!!!<br><br><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook-square" style="font-size: 4em; color:#FFF;" aria-hidden="true"></i></a></div>
+            </div>
+            <!-- Fin Pantalla "El Club" -->
+      		</div>
+
+<div class="row">
+  <div class="column" style="background-color:#030303;">Turnos</div>
+  <div class="column" style="background-color:#e23636;">Calendario</div>
+  <div class="column" style="background-color:#ccc;">Alumnos</div>
+</div>
+
+<div class="footer">
+  <p>NOVA PADEL CENTER</p>
+</div>
+
+</body>
+</html>
+
+

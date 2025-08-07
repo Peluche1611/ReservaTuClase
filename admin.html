@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Panel de Administración</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="shortcut icon" href="./favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="./favicon.png" type="image/png">
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            background-color: rgb(0, 0, 0);
+        }
+
+        .header {
+            background-color: #fc0519; /* Rojo */
+            color: rgb(0, 0, 0);
+            padding: 30px;
+            text-align: center;
+            font-size: 35px;
+        }
+
+        .column {
+            float: left;
+            width: 33.33%;
+            padding: 10px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .footer {
+            background-color: #000; /* Negro */
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        form input, form select {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 90%;
+        }
+
+        form button {
+            padding: 8px 12px;
+            background-color: #378eeb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .flashes {
+            list-style: none;
+            padding: 0;
+        }
+
+        .flashes li {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #000000;
+            color: #721c24;
+        }
+
+        @media (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Panel de Administración</h2>
+    <p>Sesión iniciada como: <strong>{{ session['user'] }}</strong></p>
+    <a href="{{ url_for('logout') }}" style="color: white;">Cerrar sesión</a>
+</div>
+
+<!-- Mensajes flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+    <!-- Columna 1: Agregar Turno -->
+    <div class="column" style="background-color:#f8f9fa;">
+        <h3>Agregar Turno</h3>
+        <form method="POST" action="{{ url_for('agregar_turno') }}">
+            <label for="fecha">Fecha:</label><br>
+            <input type="date" name="fecha" id="fecha" required><br>
+
+            <label for="hora">Hora:</label><br>
+            <select name="hora" id="hora" required>
+                <option value="">Seleccioná una hora</option>
+                <option value="08:00">8:00Hs</option>
+                <option value="09:00">9:00Hs</option>
+                <option value="10:00">10:00Hs</option>
+                <option value="11:00">11:00Hs</option>
+                <option value="12:00">12:00Hs</option>
+                <option value="13:00">13:00Hs</option>
+                <option value="14:00">14:00Hs</option>
+            </select><br>
+
+            <button type="submit">Agregar</button>
+        </form>
+    </div>
+
+    <!-- Columna 2: Lista de Turnos -->
+    <div class="column" style="background-color:#ffffff;">
+        <h3>Turnos</h3>
+        {% if slots %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for slot in slots %}
+                <tr>
+                    <td>{{ slot.id }}</td>
+                    <td>{{ slot.fecha }}</td>
+                    <td>{{ slot.hora }}</td>
+                    <td>
+                        {% if slot.reserved %}
+                            Reservado por {{ slot.reserved_by }} ({{ slot.category }})
+                        {% else %}
+                            Libre
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No hay turnos cargados.</p>
+        {% endif %}
+    </div>
+
+    <!-- Columna 3: Acciones -->
+    <div class="column" style="background-color:#df0505;">
+        <h3>Acciones</h3>
+        {% for slot in slots %}
+            <p>
+                Turno {{ slot.fecha }} {{ slot.hora }}:
+                {% if slot.reserved %}
+                    <a href="{{ url_for('admin_cancel', slot_id=slot.id) }}">Cancelar Reserva</a>
+                {% else %}
+                    <a href="{{ url_for('admin_occupy', slot_id=slot.id) }}">Reservar</a>
+                {% endif %}
+            </p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="footer">
+  <p>NOVA PADEL CENTER</p>
+</div>
+
+</body>
+</html>

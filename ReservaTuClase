@@ -1,0 +1,13 @@
+padel_scheduler/
+│
+├── app.py                  # Archivo principal de Flask
+├── templates/              # HTMLs
+│   ├── login.html
+│   ├── register.html
+│   ├── schedule.html
+│   └── dashboard.html
+├── static/                 # CSS, JS, imágenes
+│   └── style.css
+├── models.py               # Modelos de datos
+├── database.db             # Base de datos SQLite
+└── utils.py                # Funciones auxiliares
