@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from datetime import date
+import mercadopago
 
 app = Flask(__name__)
 app.secret_key = 'clave-secreta'  # Cambia esto por una clave secreta más segura
@@ -193,6 +194,8 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+mp = mercadopago.SDK("TU_ACCESS_TOKEN")
+
 # Página pública de turnos (solo muestra los turnos libres de las próximas dos semanas hasta el viernes siguiente)
 @app.route("/turnos", methods=['GET', 'POST'])
 def turnos():
@@ -223,9 +226,74 @@ def ocupar_turno(slot_id):
     if request.method == 'POST':
         nombre = request.form['nombre']
         categoria = request.form['categoria']
-        # No guardes la reserva todavía hasta confirmar el pago
-        return render_template('pago.html', nombre=nombre, categoria=categoria, slot=slot)
+
+        # Crea la preferencia de pago
+        preference_data = {
+            "items": [
+                {
+                    "title": f"Clase de pádel {slot.fecha} {slot.hora}",
+                    "quantity": 1,
+                    "currency_id": "ARS",
+                    "unit_price": 15000
+                }
+            ],
+            "payer": {
+                "name": nombre
+            },
+            "back_urls": {
+                "success": url_for('turnos', _external=True),
+                "failure": url_for('turnos', _external=True),
+                "pending": url_for('turnos', _external=True)
+            },
+            "notification_url": url_for('webhook_mp', _external=True),
+            "external_reference": f"{slot.id}|{nombre}|{categoria}"
+        }
+        preference_response = mp.preference().create(preference_data)
+        init_point = preference_response["response"]["init_point"]
+
+        return render_template('pago.html', nombre=nombre, categoria=categoria, slot=slot, init_point=init_point)
     return render_template('ocupar_turno.html', slot=slot)
+
+from flask import request
+
+@app.route('/webhook_mp', methods=['POST'])
+def webhook_mp():
+    data = request.json
+    if data and data.get("type") == "payment":
+        payment_id = data.get("data", {}).get("id")
+        payment_info = mp.payment().get(payment_id)
+        status = payment_info["response"]["status"]
+        external_reference = payment_info["response"]["external_reference"]
+        if status == "approved":
+            slot_id, nombre, categoria = external_reference.split("|")
+            slot = Slot.query.get(int(slot_id))
+            if slot and not slot.reserved and not SlotOccupant.query.filter_by(slot_id=slot.id, nombre=nombre).first():
+                ocupante = SlotOccupant(slot_id=slot.id, nombre=nombre, categoria=categoria)
+                db.session.add(ocupante)
+                db.session.commit()
+    return '', 200
+
+@app.route('/confirmar_pago/<int:slot_id>', methods=['POST'])
+def confirmar_pago(slot_id):
+    slot = Slot.query.get(slot_id)
+    if not slot or slot.reserved:
+        flash("Turno no disponible", "error")
+        return redirect(url_for('turnos'))
+    nombre = request.form['nombre']
+    categoria = request.form['categoria']
+    # Aquí podrías validar el pago con la API de Mercado Pago si quieres hacerlo automático
+    # Por ahora, solo reservamos el turno
+    if SlotOccupant.query.filter_by(slot_id=slot.id, nombre=nombre).first():
+        flash("Ya tienes un lugar reservado en este turno.", "error")
+        return redirect(url_for('turnos'))
+    if len(slot.occupants) < 4:
+        ocupante = SlotOccupant(slot_id=slot.id, nombre=nombre, categoria=categoria)
+        db.session.add(ocupante)
+        db.session.commit()
+        flash("Turno reservado correctamente. ¡Gracias por tu pago!", "success")
+    else:
+        flash("El turno ya está completo", "error")
+    return redirect(url_for('turnos'))
 
 # Liberar turno como usuario (elimina su ocupación)
 @app.route('/liberar/<int:slot_id>/<nombre>')
