@@ -7,6 +7,9 @@ from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from datetime import date
 import mercadopago
+import os
+
+mp = mercadopago.SDK(os.environ.get("MERCADOPAGO_ACCESS_TOKEN"))
 
 app = Flask(__name__)
 app.secret_key = 'clave-secreta'  # Cambia esto por una clave secreta más segura
